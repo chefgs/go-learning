@@ -2,7 +2,7 @@
 
 ## 📘 Why I'm Learning Go
 
-As a DevOps engineer working with infrastructure automation, I keep encountering tools built in Go—like Kubernetes, Docker, and Terraform. It became clear: **Go isn’t just a language—it’s a foundational pillar in modern cloud-native systems.**
+Go is good for designing and developing software backend systems. As a DevOps engineer working with infrastructure automation, I keep encountering tools built in Go, for example Kubernetes, Docker, and Terraform. It became clear: **Go isn’t just a language, it’s a foundational pillar in modern cloud-native systems.**
 
 But instead of jumping into frameworks, I chose to learn **from first principles**—understanding Go’s syntax, memory model, and built-in capabilities **before** building REST APIs or services.
 
