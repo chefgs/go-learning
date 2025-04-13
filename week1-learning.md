@@ -10,7 +10,7 @@ I dedicated this first week to mastering the **core syntax**, understanding memo
 
 ## 🔹 Packages and Imports
 
-- Every Go program starts with a `` declaration.
+- Every Go program starts with a \`\` declaration.
 - Imports can be **factored** like this:
 
 ```go
@@ -32,6 +32,10 @@ import (
 func add(x, y, c int) int {
   return x + y + c
 }
+
+func main() {
+  fmt.Println(add(40, 10, 45)) // Output: 95
+}
 ```
 
 ### Function with multiple return values:
@@ -39,6 +43,11 @@ func add(x, y, c int) int {
 ```go
 func swap(x, y, z string) (string, string, string) {
   return x, y, z
+}
+
+func main() {
+  a, b, c := swap("hello", "world", "learning go")
+  fmt.Println(a, b, c) // Output: hello world learning go
 }
 ```
 
@@ -49,6 +58,10 @@ func split(sum int) (x, y int) {
   x = sum * 4 / 9
   y = sum - x
   return
+}
+
+func main() {
+  fmt.Println(split(17)) // Output: 7 10
 }
 ```
 
@@ -69,6 +82,11 @@ j := 3.2
 ```go
 const Pi = 3.14
 const Truth = true
+
+func main() {
+  fmt.Println("Happy", Pi, "Day") // Output: Happy 3.14 Day
+  fmt.Println("Go rules?", Truth) // Output: Go rules? true
+}
 ```
 
 ### Big/Small Constants:
@@ -78,6 +96,17 @@ const (
   Big = 1 << 100
   Small = Big >> 99
 )
+
+func needInt(x int) int { return x*10 + 1 }
+func needFloat(x float64) float64 {
+  return x * 0.1
+}
+
+func main() {
+  fmt.Println(needInt(Small))     // Output: 21
+  fmt.Println(needFloat(Small))   // Output: 0.2
+  fmt.Println(needFloat(Big))     // Output: 1.2676506002282295e+29
+}
 ```
 
 ---
@@ -166,16 +195,60 @@ type Vertex struct {
   X, Y int
 }
 
-v := Vertex{1, 2}
-p := &v
-p.X = 1000
+v := Vertex{1, 2}      // struct instance
+p := &v                // pointer to struct
+p.X = 1000             // updating field via pointer (implicit dereferencing)
 ```
 
-> Accessing struct fields via pointer doesn't require explicit dereferencing.
+In Go, a `struct` is a composite type that groups variables (fields) under a single name. It’s often used to represent data models like coordinates, configurations, or database entities.
+
+You can access struct fields using dot notation (e.g., `v.X`). When working with a pointer to a struct, Go allows you to access fields using the same syntax: `p.X` is interpreted as `(*p).X`. This makes pointer dereferencing seamless and readable.
+
+### 🧠 Why use pointers with structs?
+
+- **Memory efficiency**: Pass references instead of copying the entire struct
+- **Mutability**: Update struct fields directly via pointers
+- **Useful in APIs**: Modify request/response data within handler functions
+
+### ✅ Example in practice:
+
+```go
+type User struct {
+  Name string
+  Age  int
+}
+
+func updateAge(u *User, newAge int) {
+  u.Age = newAge
+}
+
+func main() {
+  user := User{"Alice", 25}
+  updateAge(&user, 30)
+  fmt.Println(user) // Output: {Alice 30}
+}
+```
+
+This approach is especially powerful when working with REST APIs or in-memory stateful services where struct manipulation is common.
 
 ---
 
 ## 🔹 Arrays and Slices
+
+In Go, slices provide a flexible way to work with sequences. They are built on top of arrays, but unlike arrays, slices are dynamic and can grow or shrink.
+
+👉 **Slicing Basics:**
+
+- A slice is created using a colon `:` operator: `array[low:high]`.
+- The \*\*low index defaults to \*\***`0`** if not provided.
+- The **high index represents the position just beyond the last element**, so slicing **goes up to \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*****`n-1`**.
+
+For example:
+
+```go
+arr := [5]int{10, 20, 30, 40, 50}
+slice := arr[1:4] // includes elements at index 1, 2, 3 => [20 30 40]
+```
 
 ### Array:
 
@@ -196,16 +269,24 @@ s := primes[1:4] // slice with elements 3, 5, 7
 ### Slice literals:
 
 ```go
-q := []int{2, 3, 5, 7, 11, 13}
-r := []bool{true, false, true}
+s := []int{2, 3, 5, 7, 11, 13}
 ```
 
 ### Slice defaults:
 
 ```go
 s = s[1:4]
-s = s[:2]
-s = s[1:]
+s = s[:2] // s gets the result of previous assignment
+s = s[1:]  // s gets the result of previous assignment
+```
+
+In the slicing example above, result is printed as below
+
+```
+Reset
+[3 5 7]
+[3 5]
+[5]
 ```
 
 ---
@@ -219,7 +300,7 @@ This week, I went from zero to solid on Go fundamentals:
 - Using slices effectively
 - Understanding package structure and scoping rules
 
-In **Week 2**, I’ll continue building my core knowledge and, if all goes well, start exploring **API development using **``, followed by **TDD practices** in Go.
+In **Week 2**, I’ll continue building my core knowledge and, if all goes well, start exploring \*\*API development using \*\*, followed by **TDD practices** in Go.
 
 > Learning from first principles has been the most rewarding part. Instead of skipping ahead to frameworks, I'm understanding the "why" behind the language.
 
